@@ -1,8 +1,5 @@
 pipeline {
         agent  { label 'docker' }
-        parameters {
-           choice(name: 'branch', choices: ['main','develop','feature'], description: 'Branch to build docker image')
-         }
          triggers {
           pollSCM('* * * * *')
          }
