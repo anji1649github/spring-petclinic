@@ -9,10 +9,10 @@ pipeline {
           stages {
             stage('checkout') {
               steps {
-                   mail subject: "build started",
-                    body   : "build started",
-                    to     : 'anji1649@gmail.com'
-                   git branch: "${params.branch}", url: 'https://github.com/anji1649github/spring-petclinic.git'
+                 //  mail subject: "build started",
+                 //   body   : "build started",
+                 //  to     : 'anji1649@gmail.com'
+                  checkout scmGit(branches: [[name: '*/develop']], extensions: [], userRemoteConfigs: [[credentialsId: 'docker_image', url: 'https://github.com/anji1649github/spring-petclinic.git']])
                 }
                 }
           //  stage('Package build & Sonar'){
