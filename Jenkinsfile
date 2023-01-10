@@ -29,9 +29,9 @@ pipeline {
            stage ('Artifactory configuration'){
                 steps {
                   rtServer (
-                    id: "jfrog_cicd",
+                    id: "jfrog_1649",
                     url: 'https://anji1473.jfrog.io',
-                    credentialsId: "jfrog_cicd_admin"
+                    credentialsId: "jfrog_1649_admin"
                 )
                 }
                 }
@@ -40,7 +40,7 @@ pipeline {
                       mail subject: "DockerBuild",
                       body   : "Docker build started",
                       to     : 'anji1649@gmail.com'
-                      sh "docker image build -t spc:${env.BUILD_NUMBER} ."
+                      sh "docker image build -t anji1473.jfrog.io/docker-local/spc:${env.BUILD_NUMBER} ."
                       sh "docker image push anji1473.jfrog.io/docker-local/spc:${env.BUILD_NUMBER}"
                 }
                 }   
