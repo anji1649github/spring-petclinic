@@ -2,14 +2,15 @@ pipeline {
         agent  { label 'docker' }
          triggers {
           pollSCM('* * * * *')
-         }
+          }
           stages {
             stage('checkout') {
               steps {
                  //  mail subject: "build started",
                  //   body   : "build started",
                  //  to     : 'anji1649@gmail.com'
-                  checkout scmGit(branches: [[name: '*/develop']], extensions: [], userRemoteConfigs: [[credentialsId: 'docker_image', url: 'https://github.com/anji1649github/spring-petclinic.git']])
+                  checkout scmGit(branches: [[name: '*/develop']], extensions: [], 
+                  userRemoteConfigs: [[credentialsId: 'docker_image', url: 'https://github.com/anji1649github/spring-petclinic.git']])
                 }
                 }
           //  stage('Package build & Sonar'){
@@ -29,9 +30,9 @@ pipeline {
            stage ('Artifactory configuration'){
                 steps {
                   rtServer (
-                    id: "jfrog_1649",
+                    id: "JFROG_1649",
                     url: 'https://anji1473.jfrog.io',
-                    credentialsId: "jfrog_1649_admin"
+                    credentialsId: "JFROG_1649_admin"
                 )
                 }
                 }
@@ -40,11 +41,16 @@ pipeline {
                       mail subject: "DockerBuild",
                       body   : "Docker build started",
                       to     : 'anji1649@gmail.com'
-                      sh "docker image build -t anji1473.jfrog.io/docker-local/spc:${env.BUILD_NUMBER} ."
-                      sh "docker image push anji1473.jfrog.io/docker-local/spc:${env.BUILD_NUMBER}"
+                      sh "docker image build -t anji1473.jfrog.io/anji-local/spc:${env.BUILD_NUMBER} ."
+                      sh "docker image push anji1473.jfrog.io/anji-local/spc:${env.BUILD_NUMBER}"
                 }
-                }   
+                }
+            stage ('Deleting image') {
+              steps {
+                     sh "docker image rmi -f anji1473.jfrog.io/anji-docker/spc:${env.BUILD_NUMBER} "
+                    }   
                }
         }
+}
                     
                       
