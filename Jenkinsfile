@@ -21,13 +21,13 @@ pipeline {
               //    checkout scmGit(branches: [[name: '*/develop']], extensions: [], 
                //   userRemoteConfigs: [[credentialsId: 'docker_image', url: 'https://github.com/anji1649github/spring-petclinic.git']])
                
-          //  stage('Package build & Sonar'){
-          //  steps{
-           //     withSonarQubeEnv('SONAR') {
-           //     sh "mvn package sonar:sonar"
-           //   }
-           // }
-        //}
+           stage('Package build & Sonar'){
+           steps{
+              withSonarQubeEnv('SONAR') {
+              sh "mvn package sonar:sonar"
+             }
+           }
+        }
         // stage("Quality Gate") {
         //     steps {
         //       timeout(time: 30, unit: 'MINUTES') {
