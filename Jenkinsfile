@@ -41,7 +41,7 @@ pipeline {
                     id: "MAVEN_DEPLOYER",
                     serverId: "JFROG_1649",
                     releaseRepo: 'testing-libs-release-local',
-                    snapshotRepo: 'testing-libs-release-local'
+                    snapshotRepo: 'testing-libs-snapshot-local'
                    )
                 }
                 }
