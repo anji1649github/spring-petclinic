@@ -39,8 +39,7 @@ pipeline {
                 steps {
                   rtServer (
                     id: "JFROG_1649",
-                    url: 'https://anji1473.jfrog.io',
-                    credentialsId: "JFROG_1649_admin"
+                    url: 'https://anji1473.jfrog.io'
                 )
                 }
                 }
@@ -49,8 +48,9 @@ pipeline {
                       mail subject: "DockerBuild",
                       body   : "Docker build started",
                       to     : 'anji1649@gmail.com'
-                      sh "docker image build -t anji1473.jfrog.io/anji-local/spc:${env.BUILD_NUMBER} ."
-                      sh "docker image push anji1473.jfrog.io/anji-local/spc:${env.BUILD_NUMBER}"
+                      sh "docker image build -t anji1473.jfrog.io/anji/spc:${env.BUILD_NUMBER} ."
+                      sh "docker image tag spc:${env.BUILD_NUMBER} anji1473.jfrog.io/anji/spc:${env.BUILD_NUMBER} "
+                      sh "docker image push anji1473.jfrog.io/anji/spc:${env.BUILD_NUMBER}"
                 }
                 }
             stage ('Deleting image') {
