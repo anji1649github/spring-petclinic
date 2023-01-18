@@ -37,10 +37,12 @@ pipeline {
         // }
            stage ('Artifactory configuration'){
                 steps {
-                  rtServer (
-                    id: "JFROG_1649",
-                    url: 'https://anji1473.jfrog.io'
-                )
+                   rtMavenDeployer (
+                    id: "MAVEN_DEPLOYER",
+                    serverId: "JFROG_1649",
+                    releaseRepo: 'anji-libs-release-local',
+                    snapshotRepo: 'anji-libs-release-local'
+                   )
                 }
                 }
             stage ('docker image build and push') {
@@ -55,7 +57,7 @@ pipeline {
                 }
             stage ('Deleting image') {
               steps {
-                     sh "docker image rmi -f anji1473.jfrog.io/anji-docker/spc:${env.BUILD_NUMBER} "
+                     sh "docker image rmi -f anji1473.jfrog.io/anji/spc:${env.BUILD_NUMBER} "
                     }   
                }
         }
