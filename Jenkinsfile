@@ -1,14 +1,12 @@
 pipeline {
-        agent  { label 'docker' }
-       parameters {
+  agent  { label 'docker' }
+  parameters {
         choice(name: 'branch', choices: ['main', 'develop','feature'], description: 'branch name')
          }
-         triggers {
-          pollSCM('* * * * *')
-          }
-         stages {
-            stage ('clone') {
-             steps{
+triggers { pollSCM('* * * * *')}
+    stages {
+      stage ('clone') {
+        steps{
                git url: 'https://github.com/anji1649github/spring-petclinic.git',
                 branch: "${params:branch}"
               }
@@ -22,21 +20,21 @@ pipeline {
           //        userRemoteConfigs: [[credentialsId: 'docker_image', url: 'https://github.com/anji1649github/spring-petclinic.git']])
           //       }
                
-           stage('Package build & Sonar'){
-           steps{
+      stage('Package build & Sonar'){
+         steps{
               withSonarQubeEnv('SONAR') {
               sh "mvn package sonar:sonar"
              }
            }
         }
-        stage("Quality Gate") {
+      stage("Quality Gate") {
             steps {
               timeout(time: 5, unit: 'MINUTES') {
                 waitForQualityGate abortPipeline: true
               }
             }
         }
-           stage ('Artifactory configuration'){
+      stage ('Artifactory configuration'){
                 steps {
                    rtMavenDeployer (
                     id: "MAVEN_DEPLOYER",
@@ -46,7 +44,7 @@ pipeline {
                    )
                 }
                 }
-                stage ('Exec Maven') {
+      stage ('Exec Maven') {
             steps {
                 rtMavenRun (
                     tool: 'MAVEN_TOOL', // Tool name from Jenkins configuration
@@ -56,7 +54,7 @@ pipeline {
                 )
             }
                 }
-            stage ('docker image build and push') {
+      stage ('docker image build and push') {
                steps {
                       mail subject: "DockerBuild",
                       body   : "Docker build started",
@@ -65,7 +63,7 @@ pipeline {
                       sh "docker push anji1473.jfrog.io/docker-trial/spc:${env.BUILD_NUMBER}"
                 }
                 }
-            stage ('Deleting image') {
+      stage ('Deleting image') {
               steps {
                      sh "docker image rmi -f anji1473.jfrog.io/docker-trail/spc:${env.BUILD_NUMBER} "
                     }   
