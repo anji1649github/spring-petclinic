@@ -40,8 +40,8 @@ pipeline {
                    rtMavenDeployer (
                     id: "MAVEN_DEPLOYER",
                     serverId: "JFROG_1649",
-                    releaseRepo: 'anji-libs-release-local',
-                    snapshotRepo: 'anji-libs-release-local'
+                    releaseRepo: 'testing-libs-release-local',
+                    snapshotRepo: 'testing-libs-release-local'
                    )
                 }
                 }
