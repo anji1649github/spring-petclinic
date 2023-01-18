@@ -50,9 +50,8 @@ pipeline {
                       mail subject: "DockerBuild",
                       body   : "Docker build started",
                       to     : 'anji1649@gmail.com'
-                      sh "docker image build -t anji1473.jfrog.io/anji/spc:${env.BUILD_NUMBER} ."
-                      sh "docker image tag spc:${env.BUILD_NUMBER} anji1473.jfrog.io/anji/spc:${env.BUILD_NUMBER} "
-                      sh "docker image push anji1473.jfrog.io/anji/spc:${env.BUILD_NUMBER}"
+                      sh "docker image build -t anji1473.jfrog.io/docker-trial/spc:${env.BUILD_NUMBER} ."
+                      sh "docker push anji1473.jfrog.io/docker-trial/spc:${env.BUILD_NUMBER}"
                 }
                 }
             stage ('Deleting image') {
