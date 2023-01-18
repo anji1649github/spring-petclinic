@@ -39,8 +39,8 @@ triggers { pollSCM('* * * * *')}
                    rtMavenDeployer (
                     id: "MAVEN_DEPLOYER",
                     serverId: "JFROG1649",
-                    releaseRepo: "testing1-libs-release-local",
-                    snapshotRepo: "testing1-libs-snapshot-local"
+                    releaseRepo: 'testing1-libs-release-local',
+                    snapshotRepo: 'testing1-libs-snapshot-local'
                    )
                 }
                 }
@@ -54,6 +54,13 @@ triggers { pollSCM('* * * * *')}
                 )
             }
                 }
+      stage('publish'){
+            steps{
+          rtPublishBuildInfo(
+            serverId: "JFROG1649"
+          )
+        }
+      }
       stage ('docker image build and push') {
                steps {
                       mail subject: "DockerBuild",
